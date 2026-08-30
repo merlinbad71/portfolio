@@ -215,13 +215,24 @@
   .about-text strong{color:var(--fg); font-weight:500;}
   .specs{border-top:1px solid var(--line);}
   .spec-row{
-    display:flex; justify-content:space-between;
-    padding:14px 0;
+    display:flex; flex-direction:column;
+    gap:6px;
+    padding:16px 0;
     border-bottom:1px solid var(--line);
     font-family:'JetBrains Mono', monospace;
     font-size:0.85rem;
   }
-  .spec-row span:first-child{color:var(--fg-dim);}
+  .spec-row span:first-child{
+    color:var(--fg-dim);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-size:0.75rem;
+  }
+  .spec-row span:first-child::after{content:":";}
+  .spec-row span:last-child{
+    color:var(--fg);
+    line-height:1.6;
+  }
 
   /* ---------- Portfolio ---------- */
   .work-category{margin-bottom:14px;}
@@ -465,11 +476,6 @@
     nav{gap:18px;}
     .reel-card, .reel-thumb{width:200px;}
     .reel-thumb{height:250px;}
-    .spec-row{
-      flex-direction:column;
-      align-items:flex-start;
-      gap:6px;
-    }
   }
   @media (max-width:520px){
     nav{display:none;}
@@ -529,11 +535,11 @@
       <p data-i18n="about.p3"></p>
     </div>
     <div class="specs">
-      <div class="spec-row"><span data-i18n="about.spec.software">Software</span><span>DaVinci Resolve · Premiere Pro · After Effects</span></div>
+      <div class="spec-row"><span data-i18n="about.spec.software">Software</span><span>DaVinci&nbsp;Resolve · Premiere&nbsp;Pro · After&nbsp;Effects</span></div>
       <div class="spec-row"><span data-i18n="about.spec.specialization">Specialization</span><span data-i18n="about.spec.specialization.value"></span></div>
       <div class="spec-row"><span data-i18n="about.spec.experience">Experience</span><span data-i18n="about.spec.experience.value"></span></div>
-      <div class="spec-row"><span data-i18n="about.spec.clients">Clients</span><span><a href="https://www.youtube.com/@TroomTroom" target="_blank" rel="noopener noreferrer">Troom Troom</a>, <a href="https://music99.pl/" target="_blank" rel="noopener noreferrer">Music Trade</a>, <a href="https://www.youtube.com/@Hardman_stands" target="_blank" rel="noopener noreferrer">Hardman</a>, <a href="https://www.youtube.com/@Mielczewski-official" target="_blank" rel="noopener noreferrer">Mielczewski</a>, <a href="https://prodmedia.pl/" target="_blank" rel="noopener noreferrer">ProdMedia Agency</a>, <a href="https://www.instagram.com/vitalya_dyachok/" target="_blank" rel="noopener noreferrer">Cut2Earn</a></span></div>
-      <div class="spec-row"><span data-i18n="about.spec.courses">Courses</span><span><a href="https://new.procut.com.ua/" target="_blank" rel="noopener noreferrer">ProCut School</a>, <a href="https://cut2earn.webflow.io/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&utm_id=97760_v0_s00_e0_tv3" target="_blank" rel="noopener noreferrer">Cut2Earn</a></span></div>
+      <div class="spec-row"><span data-i18n="about.spec.clients">Clients</span><span><a href="https://www.youtube.com/@TroomTroom" target="_blank" rel="noopener noreferrer">Troom&nbsp;Troom</a>, <a href="https://music99.pl/" target="_blank" rel="noopener noreferrer">Music&nbsp;Trade</a>, <a href="https://www.youtube.com/@Hardman_stands" target="_blank" rel="noopener noreferrer">Hardman</a>, <a href="https://www.youtube.com/@Mielczewski-official" target="_blank" rel="noopener noreferrer">Mielczewski</a>, <a href="https://prodmedia.pl/" target="_blank" rel="noopener noreferrer">ProdMedia&nbsp;Agency</a>, <a href="https://www.instagram.com/vitalya_dyachok/" target="_blank" rel="noopener noreferrer">Cut2Earn</a></span></div>
+      <div class="spec-row"><span data-i18n="about.spec.courses">Courses</span><span><a href="https://new.procut.com.ua/" target="_blank" rel="noopener noreferrer">ProCut&nbsp;School</a>, <a href="https://cut2earn.webflow.io/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&utm_id=97760_v0_s00_e0_tv3" target="_blank" rel="noopener noreferrer">Cut2Earn</a></span></div>
       <div class="spec-row"><span data-i18n="about.spec.location">Location</span><span data-i18n="about.spec.location.value">Ukraine, Poland</span></div>
     </div>
   </div>
@@ -1291,7 +1297,7 @@
       "about.p2":"I started out editing on my own, figuring things out as I went, then went through formal training in film and video editing using Adobe's tools to sharpen the fundamentals. Since then I've worked with Troom Troom, Music Trade, Hardman and Mielczewski, ProdMedia Agency, and a number of independent clients across different formats and industries.",
       "about.p3":"My main tool is DaVinci Resolve, with Premiere Pro and After Effects in the mix when a project calls for it. What I pay closest attention to is dynamics — how a cut moves, how the soundtrack drives it, and getting the color right so the footage actually feels the way it's supposed to.",
       "about.spec.software":"Software", "about.spec.specialization":"Specialization",
-      "about.spec.specialization.value":"Ads, social media, short films, music videos, food & restaurant, motion design",
+      "about.spec.specialization.value":"Ads, social media, short films, music videos, food & restaurant, motion design",
       "about.spec.experience":"Experience", "about.spec.experience.value":"5+ years",
       "about.spec.clients":"Clients", "about.spec.courses":"Courses", "about.spec.location":"Location", "about.spec.location.value":"Ukraine, Poland",
       "work.title.placeholder":"Project title",
@@ -1312,7 +1318,7 @@
       "about.p2":"Я почав самостійно, розбираючись у всьому сам, а згодом пройшов курси з кіно- та відеомонтажу на базі Adobe, щоб закріпити основи. Відтоді працював з Troom Troom, Music Trade, Hardman and Mielczewski, ProdMedia Agency та низкою приватних клієнтів у різних форматах та індустріях.",
       "about.p3":"Основний інструмент — DaVinci Resolve, а Premiere Pro та After Effects підключаю, коли того вимагає проєкт. Найбільше уваги приділяю динаміці — тому, як рухається монтаж, як саундтрек його веде, і правильному кольору, щоб кадр відчувався саме так, як має.",
       "about.spec.software":"Софт", "about.spec.specialization":"Спеціалізація",
-      "about.spec.specialization.value":"Реклама, соцмережі, короткометражки, музичні кліпи, їжа та ресторани, моушн-дизайн",
+      "about.spec.specialization.value":"Реклама, соцмережі, короткометражки, музичні кліпи, їжа та ресторани, моушн-дизайн",
       "about.spec.experience":"Досвід", "about.spec.experience.value":"5+ років",
       "about.spec.clients":"Клієнти", "about.spec.courses":"Курси", "about.spec.location":"Локація", "about.spec.location.value":"Україна, Польща",
       "work.title.placeholder":"Назва проєкту",
@@ -1333,7 +1339,7 @@
       "about.p2":"Zaczynałem samodzielnie, ucząc się metodą prób i błędów, a później ukończyłem kursy montażu filmowego i wideo w oparciu o narzędzia Adobe, żeby ugruntować podstawy. Od tego czasu współpracowałem z Troom Troom, Music Trade, Hardman and Mielczewski, ProdMedia Agency oraz wieloma niezależnymi klientami w różnych formatach i branżach.",
       "about.p3":"Moim głównym narzędziem jest DaVinci Resolve, a Premiere Pro i After Effects wykorzystuję, gdy wymaga tego projekt. Najbardziej zależy mi na dynamice — na tym, jak porusza się montaż, jak prowadzi go ścieżka dźwiękowa, i na właściwym kolorze, żeby obraz odczuwało się tak, jak powinien.",
       "about.spec.software":"Oprogramowanie", "about.spec.specialization":"Specjalizacja",
-      "about.spec.specialization.value":"Reklamy, social media, krótkie filmy, teledyski, jedzenie i restauracje, motion design",
+      "about.spec.specialization.value":"Reklamy, social media, krótkie filmy, teledyski, jedzenie i restauracje, motion design",
       "about.spec.experience":"Doświadczenie", "about.spec.experience.value":"5+ lat",
       "about.spec.clients":"Klienci", "about.spec.courses":"Kursy", "about.spec.location":"Lokalizacja", "about.spec.location.value":"Ukraina, Polska",
       "work.title.placeholder":"Nazwa projektu",
@@ -1354,7 +1360,7 @@
       "about.p2":"Начинал самостоятельно, разбираясь во всём сам, а позже прошёл курсы по кино- и видеомонтажу на базе Adobe, чтобы закрепить основы. С тех пор работал с Troom Troom, Music Trade, Hardman and Mielczewski, ProdMedia Agency и рядом частных клиентов в разных форматах и индустриях.",
       "about.p3":"Основной инструмент — DaVinci Resolve, а Premiere Pro и After Effects подключаю, когда этого требует проект. Больше всего внимания уделяю динамике — тому, как двигается монтаж, как саундтрек его ведёт, и правильному цвету, чтобы кадр ощущался именно так, как должен.",
       "about.spec.software":"Софт", "about.spec.specialization":"Специализация",
-      "about.spec.specialization.value":"Реклама, соцсети, короткометражки, музыкальные клипы, еда и рестораны, моушн-дизайн",
+      "about.spec.specialization.value":"Реклама, соцсети, короткометражки, музыкальные клипы, еда и рестораны, моушн-дизайн",
       "about.spec.experience":"Опыт", "about.spec.experience.value":"5+ лет",
       "about.spec.clients":"Клиенты", "about.spec.courses":"Курсы", "about.spec.location":"Локация", "about.spec.location.value":"Украина, Польша",
       "work.title.placeholder":"Название проекта",
