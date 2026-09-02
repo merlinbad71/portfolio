@@ -79,26 +79,6 @@
     transition:width 0.25s ease;
   }
   nav a:hover::after{width:100%;}
-  .nav-toggle{
-    display:none;
-    flex-direction:column;
-    justify-content:center;
-    gap:5px;
-    width:32px; height:32px;
-    background:none;
-    border:none;
-    cursor:pointer;
-    padding:0;
-  }
-  .nav-toggle span{
-    display:block;
-    width:100%; height:1px;
-    background:var(--fg);
-    transition:transform 0.25s ease, opacity 0.25s ease;
-  }
-  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
-  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
-  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
   .lang-switch{
     display:flex; gap:2px;
@@ -116,9 +96,48 @@
   }
   .lang-switch button:hover{color:var(--fg);}
   .lang-switch button.active{background:var(--fg); color:var(--bg);}
-  @media (max-width:520px){
-    .lang-switch{margin-left:0;}
+
+  .lang-dropdown{
+    display:none;
+    position:relative;
   }
+  .lang-dropdown-toggle{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--fg-dim);
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.06em;
+    padding:6px 10px;
+    cursor:pointer;
+  }
+  .lang-dropdown-toggle:hover, .lang-dropdown-toggle[aria-expanded="true"]{color:var(--fg); border-color:var(--fg);}
+  .lang-dropdown-menu{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:calc(100% + 8px);
+    right:0;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    min-width:70px;
+    z-index:960;
+  }
+  .lang-dropdown-menu.open{display:flex;}
+  .lang-dropdown-menu button{
+    background:none; border:none; cursor:pointer;
+    text-align:left;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.06em;
+    color:var(--fg-dim);
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .lang-dropdown-menu button:last-child{border-bottom:none;}
+  .lang-dropdown-menu button:hover{color:var(--fg);}
+  .lang-dropdown-menu button.active{background:var(--fg); color:var(--bg);}
 
   section{padding:140px 6vw 100px; position:relative; scroll-margin-top:90px;}
   .eyebrow{
@@ -759,34 +778,11 @@
     .reel-thumb{height:250px;}
   }
   @media (max-width:520px){
-    .nav-toggle{display:flex;}
-    nav{
-      position:fixed;
-      top:0; right:0;
-      height:100vh;
-      width:min(78vw, 300px);
-      background:var(--bg-alt);
-      border-left:1px solid var(--line);
-      flex-direction:column;
-      align-items:flex-start;
-      justify-content:center;
-      gap:28px;
-      padding:40px 32px;
-      transform:translateX(100%);
-      transition:transform 0.3s ease;
-      z-index:950;
-    }
-    nav.open{transform:translateX(0);}
-    nav a{font-size:1rem;}
-    .lang-switch{margin-left:0;}
+    nav{gap:14px;}
+    nav a{font-size:0.65rem;}
+    .lang-switch{display:none;}
+    .lang-dropdown{display:block;}
   }
-  .nav-backdrop{
-    display:none;
-    position:fixed; inset:0;
-    background:rgba(0,0,0,0.6);
-    z-index:940;
-  }
-  .nav-backdrop.open{display:block;}
 
 </style>
 </head>
@@ -806,12 +802,17 @@
       <button type="button" data-lang="pl">PL</button>
       <button type="button" data-lang="ru">RU</button>
     </span>
+    <div class="lang-dropdown">
+      <button type="button" class="lang-dropdown-toggle" id="lang-dropdown-toggle" aria-label="Language" aria-expanded="false">EN</button>
+      <div class="lang-dropdown-menu" id="lang-dropdown-menu">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="uk">UA</button>
+        <button type="button" data-lang="pl">PL</button>
+        <button type="button" data-lang="ru">RU</button>
+      </div>
+    </div>
   </nav>
-  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </header>
-<div class="nav-backdrop" id="nav-backdrop"></div>
 
 <!-- ===================== HERO ===================== -->
 <section id="home">
@@ -1706,23 +1707,21 @@
     window.location.href = `mailto:daniel.novosolov@gmail.com?subject=${subject}&body=${body}`;
   });
 
-  // ---------------- Mobile menu ----------------
-  const navToggle = document.getElementById('nav-toggle');
-  const mainNav = document.getElementById('main-nav');
-  const navBackdrop = document.getElementById('nav-backdrop');
-  function closeMobileNav(){
-    mainNav.classList.remove('open');
-    navBackdrop.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
+  // ---------------- Mobile language dropdown ----------------
+  const langDropdownToggle = document.getElementById('lang-dropdown-toggle');
+  const langDropdownMenu = document.getElementById('lang-dropdown-menu');
+  function closeLangDropdown(){
+    langDropdownMenu.classList.remove('open');
+    langDropdownToggle.setAttribute('aria-expanded', 'false');
   }
-  function toggleMobileNav(){
-    const isOpen = mainNav.classList.toggle('open');
-    navBackdrop.classList.toggle('open', isOpen);
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-  }
-  navToggle.addEventListener('click', toggleMobileNav);
-  navBackdrop.addEventListener('click', closeMobileNav);
-  mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+  langDropdownToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langDropdownMenu.classList.toggle('open');
+    langDropdownToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.lang-dropdown')) closeLangDropdown();
+  });
 
   // ---------------- In-page navigation (About / Portfolio / Contact / View work) ----------------
   const reduceMotionScroll = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1831,11 +1830,13 @@
       const value = i18n[lang][key];
       if (value !== undefined) el.textContent = value;
     });
-    document.querySelectorAll('.lang-switch button').forEach(btn => {
+    document.querySelectorAll('.lang-switch button, .lang-dropdown-menu button').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
+    langDropdownToggle.textContent = lang.toUpperCase() === 'UK' ? 'UA' : lang.toUpperCase();
+    closeLangDropdown();
   }
-  document.querySelectorAll('.lang-switch button').forEach(btn => {
+  document.querySelectorAll('.lang-switch button, .lang-dropdown-menu button').forEach(btn => {
     btn.addEventListener('click', () => setLang(btn.dataset.lang));
   });
   setLang('en');
