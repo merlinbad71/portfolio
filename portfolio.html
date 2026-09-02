@@ -79,7 +79,26 @@
     transition:width 0.25s ease;
   }
   nav a:hover::after{width:100%;}
-  .nav-toggle{display:none;}
+  .nav-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:32px; height:32px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+  }
+  .nav-toggle span{
+    display:block;
+    width:100%; height:1px;
+    background:var(--fg);
+    transition:transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
   .lang-switch{
     display:flex; gap:2px;
@@ -166,6 +185,34 @@
   @media (max-width:960px){
     #home{grid-template-columns:1fr;}
     .hero-photo{display:none;}
+  }
+  .hero-photo-mobile{
+    display:none;
+  }
+  @media (max-width:960px){
+    .hero-photo-mobile{
+      display:block;
+      position:relative;
+      width:96px; height:96px;
+      margin-bottom:24px;
+    }
+    .hero-photo-mobile::before{
+      content:"";
+      position:absolute;
+      top:50%; left:50%;
+      width:150%; height:150%;
+      transform:translate(-50%, -50%);
+      background:radial-gradient(circle, var(--accent) 0%, transparent 68%);
+      filter:blur(30px);
+      z-index:-1;
+      animation:glowPulse 3.2s ease-in-out infinite;
+    }
+    .hero-photo-mobile img{
+      width:100%; height:100%;
+      object-fit:cover;
+      border-radius:50%;
+      border:1px solid var(--line);
+    }
   }
   .rec{
     width:8px; height:8px; border-radius:50%;
@@ -712,8 +759,34 @@
     .reel-thumb{height:250px;}
   }
   @media (max-width:520px){
-    nav{display:none;}
+    .nav-toggle{display:flex;}
+    nav{
+      position:fixed;
+      top:0; right:0;
+      height:100vh;
+      width:min(78vw, 300px);
+      background:var(--bg-alt);
+      border-left:1px solid var(--line);
+      flex-direction:column;
+      align-items:flex-start;
+      justify-content:center;
+      gap:28px;
+      padding:40px 32px;
+      transform:translateX(100%);
+      transition:transform 0.3s ease;
+      z-index:950;
+    }
+    nav.open{transform:translateX(0);}
+    nav a{font-size:1rem;}
+    .lang-switch{margin-left:0;}
   }
+  .nav-backdrop{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:940;
+  }
+  .nav-backdrop.open{display:block;}
 
 </style>
 </head>
@@ -723,7 +796,7 @@
 
 <header>
   <a href="#home" class="logo">DN<span>.</span></a>
-  <nav>
+  <nav id="main-nav">
     <a href="#about" data-i18n="nav.about">About</a>
     <a href="#work" data-i18n="nav.work">Portfolio</a>
     <a href="#contact" data-i18n="nav.contact">Contact</a>
@@ -734,11 +807,18 @@
       <button type="button" data-lang="ru">RU</button>
     </span>
   </nav>
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<div class="nav-backdrop" id="nav-backdrop"></div>
 
 <!-- ===================== HERO ===================== -->
 <section id="home">
   <div class="hero-content">
+    <div class="hero-photo-mobile">
+      <img src="images/daniel-hero.jpg" alt="">
+    </div>
     <div class="eyebrow"><span class="rec" aria-hidden="true"></span><span data-i18n="hero.eyebrow">REC · video editing</span></div>
     <h1 class="hero-title"><span data-i18n="hero.first">Daniel</span><br><em data-i18n="hero.last">Novosolov</em></h1>
     <p class="hero-sub" data-i18n="hero.sub">Video editor. I turn raw footage into ads, social content, short films, music videos, and more.</p>
@@ -1625,6 +1705,24 @@
     const body = encodeURIComponent(`${message}\n\n${fromByLang[currentLang] || fromByLang.en}`);
     window.location.href = `mailto:daniel.novosolov@gmail.com?subject=${subject}&body=${body}`;
   });
+
+  // ---------------- Mobile menu ----------------
+  const navToggle = document.getElementById('nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+  const navBackdrop = document.getElementById('nav-backdrop');
+  function closeMobileNav(){
+    mainNav.classList.remove('open');
+    navBackdrop.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+  function toggleMobileNav(){
+    const isOpen = mainNav.classList.toggle('open');
+    navBackdrop.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  }
+  navToggle.addEventListener('click', toggleMobileNav);
+  navBackdrop.addEventListener('click', closeMobileNav);
+  mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
 
   // ---------------- In-page navigation (About / Portfolio / Contact / View work) ----------------
   const reduceMotionScroll = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
