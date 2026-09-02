@@ -102,20 +102,18 @@
     position:relative;
   }
   .lang-dropdown-toggle{
-    display:inline-flex;
-    align-items:center;
     background:none;
-    border:1px solid var(--line);
+    border:none;
     color:var(--fg-dim);
     font-family:'JetBrains Mono', monospace;
-    font-size:0.65rem;
+    font-size:0.75rem;
     letter-spacing:0.08em;
     text-transform:uppercase;
-    line-height:1;
-    padding:5px 9px;
+    padding:0;
+    padding-bottom:3px;
     cursor:pointer;
   }
-  .lang-dropdown-toggle:hover, .lang-dropdown-toggle[aria-expanded="true"]{color:var(--fg); border-color:var(--fg);}
+  .lang-dropdown-toggle:hover, .lang-dropdown-toggle[aria-expanded="true"]{color:var(--fg);}
   .lang-dropdown-menu{
     display:none;
     flex-direction:column;
@@ -1053,24 +1051,6 @@
     </div>
     <div class="reel-card">
       <div class="reel-thumb">
-        <video class="reel-video" preload="none" poster="videos/social-05-cover.jpg" playsinline>
-          <source src="videos/social-05.mp4" type="video/mp4">
-        </video>
-        <div class="reel-controls">
-          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
-          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
-          <span class="rc-time mono">0:00</span>
-          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
-        </div>
-      </div>
-      <div class="reel-meta">
-        <span class="reel-num mono">05<a class="reel-link" href="https://www.instagram.com/vitalya_dyachok/reels/" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
-        <span class="reel-title">Car Speedramp</span>
-        <span class="reel-tc mono">00:16</span>
-      </div>
-    </div>
-    <div class="reel-card">
-      <div class="reel-thumb">
         <video class="reel-video" preload="none" poster="videos/social-06-cover.jpg" playsinline>
           <source src="videos/social-06.mp4" type="video/mp4">
         </video>
@@ -1082,9 +1062,27 @@
         </div>
       </div>
       <div class="reel-meta">
-        <span class="reel-num mono">06<a class="reel-link" href="https://www.instagram.com/xabarav/" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
+        <span class="reel-num mono">05<a class="reel-link" href="https://www.instagram.com/xabarav/" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
         <span class="reel-title">Crypto Base Start</span>
         <span class="reel-tc mono">00:41</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-thumb">
+        <video class="reel-video" preload="none" poster="videos/social-05-cover.jpg" playsinline>
+          <source src="videos/social-05.mp4" type="video/mp4">
+        </video>
+        <div class="reel-controls">
+          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
+          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
+          <span class="rc-time mono">0:00</span>
+          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
+        </div>
+      </div>
+      <div class="reel-meta">
+        <span class="reel-num mono">06<a class="reel-link" href="https://www.instagram.com/vitalya_dyachok/reels/" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
+        <span class="reel-title">Car Speedramp</span>
+        <span class="reel-tc mono">00:16</span>
       </div>
     </div>
     </div>
@@ -1397,6 +1395,42 @@
     <div class="reel">
     <div class="reel-card">
       <div class="reel-thumb">
+        <video class="reel-video" preload="none" poster="videos/ai-06-cover.jpg" playsinline>
+          <source src="videos/ai-06.mp4" type="video/mp4">
+        </video>
+        <div class="reel-controls">
+          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
+          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
+          <span class="rc-time mono">0:00</span>
+          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
+        </div>
+      </div>
+      <div class="reel-meta">
+        <span class="reel-num mono">01</span>
+        <span class="reel-title">Guitar AI</span>
+        <span class="reel-tc mono">00:10</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-thumb">
+        <video class="reel-video" preload="none" poster="videos/ai-05-cover.jpg" playsinline>
+          <source src="videos/ai-05.mp4" type="video/mp4">
+        </video>
+        <div class="reel-controls">
+          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
+          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
+          <span class="rc-time mono">0:00</span>
+          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
+        </div>
+      </div>
+      <div class="reel-meta">
+        <span class="reel-num mono">02</span>
+        <span class="reel-title">Mielczewski AI Piano</span>
+        <span class="reel-tc mono">00:10</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-thumb">
         <video class="reel-video" preload="none" poster="videos/ai-01-cover.jpg" playsinline>
           <source src="videos/ai-01.mp4" type="video/mp4">
         </video>
@@ -1408,7 +1442,7 @@
         </div>
       </div>
       <div class="reel-meta">
-        <span class="reel-num mono">01<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
+        <span class="reel-num mono">03<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
         <span class="reel-title">Hardman AI Stands 1</span>
         <span class="reel-tc mono">00:11</span>
       </div>
@@ -1426,7 +1460,7 @@
         </div>
       </div>
       <div class="reel-meta">
-        <span class="reel-num mono">02<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
+        <span class="reel-num mono">04<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
         <span class="reel-title">Hardman AI Stands 2</span>
         <span class="reel-tc mono">00:08</span>
       </div>
@@ -1444,45 +1478,9 @@
         </div>
       </div>
       <div class="reel-meta">
-        <span class="reel-num mono">03<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
+        <span class="reel-num mono">05<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
         <span class="reel-title">Hardman AI Stands 3</span>
         <span class="reel-tc mono">00:06</span>
-      </div>
-    </div>
-    <div class="reel-card">
-      <div class="reel-thumb">
-        <video class="reel-video" preload="none" poster="videos/ai-05-cover.jpg" playsinline>
-          <source src="videos/ai-05.mp4" type="video/mp4">
-        </video>
-        <div class="reel-controls">
-          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
-          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
-          <span class="rc-time mono">0:00</span>
-          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
-        </div>
-      </div>
-      <div class="reel-meta">
-        <span class="reel-num mono">04</span>
-        <span class="reel-title">Mielczewski AI Piano</span>
-        <span class="reel-tc mono">00:10</span>
-      </div>
-    </div>
-    <div class="reel-card">
-      <div class="reel-thumb">
-        <video class="reel-video" preload="none" poster="videos/ai-06-cover.jpg" playsinline>
-          <source src="videos/ai-06.mp4" type="video/mp4">
-        </video>
-        <div class="reel-controls">
-          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
-          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
-          <span class="rc-time mono">0:00</span>
-          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
-        </div>
-      </div>
-      <div class="reel-meta">
-        <span class="reel-num mono">05</span>
-        <span class="reel-title">Guitar AI</span>
-        <span class="reel-tc mono">00:10</span>
       </div>
     </div>
     </div>
