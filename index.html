@@ -115,8 +115,57 @@
   /* ---------- Hero ---------- */
   #home{
     min-height:100svh;
-    display:flex; flex-direction:column; justify-content:center;
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    align-items:center;
+    gap:40px;
     padding-top:100px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-content{
+    position:relative;
+    z-index:1;
+    max-width:640px;
+  }
+  .hero-photo{
+    position:relative;
+    z-index:0;
+    width:min(60vh, 420px);
+    aspect-ratio:1 / 1;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+  }
+  .hero-photo::before{
+    content:"";
+    position:absolute;
+    top:50%; left:50%;
+    width:130%; height:130%;
+    transform:translate(-50%, -50%);
+    background:radial-gradient(circle, var(--accent) 0%, transparent 68%);
+    filter:blur(50px);
+    z-index:-1;
+    animation:glowPulse 3.2s ease-in-out infinite;
+  }
+  @keyframes glowPulse{
+    0%,100%{opacity:0.25;}
+    50%{opacity:0.6;}
+  }
+  .hero-photo img{
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position:center center;
+    border-radius:50%;
+    -webkit-mask-image:radial-gradient(circle, black 60%, transparent 96%);
+    mask-image:radial-gradient(circle, black 60%, transparent 96%);
+    opacity:0.95;
+  }
+  @media (max-width:960px){
+    #home{grid-template-columns:1fr;}
+    .hero-photo{display:none;}
   }
   .rec{
     width:8px; height:8px; border-radius:50%;
@@ -170,17 +219,190 @@
   }
   .btn:hover, .btn:focus-visible{background:var(--fg); color:var(--bg);}
 
-  /* ruler */
-  .ruler{
+  /* mini timeline (4 rows: ruler+markers, V2, V1, A1) */
+  .mini-timeline{
     margin-top:70px;
-    height:34px;
+  }
+  .tl-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:6px;
+  }
+  .tl-row:first-child{margin-top:0;}
+  .tl-label{
+    flex-shrink:0;
+    width:20px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.62rem;
+    color:var(--fg-dim);
+    letter-spacing:0.04em;
+  }
+
+  .tl-ruler-row{align-items:flex-end;}
+  .tl-ruler{
+    position:relative;
+    flex:1;
+    height:26px;
     display:flex;
     align-items:flex-end;
     border-bottom:1px solid var(--line);
-    gap:0;
   }
   .tick{flex:1; border-left:1px solid var(--line); height:10px;}
   .tick:nth-child(5n+1){height:20px;}
+
+  .ruler-marker{
+    position:absolute;
+    top:-8px;
+    width:0; height:0;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:7px solid var(--accent);
+    opacity:0;
+    animation:markerFade 5s ease-in-out infinite;
+  }
+  .ruler-marker.m1{left:21%; animation-delay:0.4s;}
+  .ruler-marker.m2{left:39%; animation-delay:1.8s;}
+  .ruler-marker.m3{left:65%; animation-delay:0.9s;}
+  .ruler-marker.m4{left:81%; animation-delay:3.2s;}
+  .ruler-marker.m5{left:1%; animation-delay:2.5s;}
+  @keyframes markerFade{
+    0%, 100%{opacity:0;}
+    30%, 70%{opacity:1;}
+  }
+
+  .tl-track{
+    position:relative;
+    flex:1;
+    height:20px;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+  }
+
+  .tl-clip{
+    position:absolute;
+    top:2px; bottom:2px;
+    background:rgba(232,54,42,0.35);
+    border:1px solid rgba(232,54,42,0.6);
+    border-radius:5px;
+    opacity:0;
+    animation:clipFade 6s ease-in-out infinite;
+  }
+  .tl-clip.c1{left:3%; width:20%; animation-delay:0s;}
+  .tl-clip.c2{left:32%; width:26%; animation-delay:1.6s;}
+  .tl-clip.c3{left:66%; width:30%; animation-delay:3.2s;}
+  @keyframes clipFade{
+    0%, 100%{opacity:0; transform:scaleX(0.85);}
+    15%, 55%{opacity:1; transform:scaleX(1);}
+    75%{opacity:0; transform:scaleX(0.85);}
+  }
+
+  .tl-clip-sm{
+    position:absolute;
+    top:2px; bottom:2px;
+    background:rgba(232,54,42,0.3);
+    border:1px solid rgba(232,54,42,0.55);
+    border-radius:3px;
+    opacity:0;
+    animation:clipFadeFast 5.5s ease-in-out infinite;
+  }
+  .tl-clip-sm.s1{left:1%; width:3%; animation-delay:0s;}
+  .tl-clip-sm.s2{left:7%; width:9%; animation-delay:0.3s;}
+  .tl-clip-sm.s3{left:19%; width:4%; animation-delay:0.9s;}
+  .tl-clip-sm.s4{left:26%; width:12%; animation-delay:0.1s;}
+  .tl-clip-sm.s5{left:41%; width:3%; animation-delay:1.2s;}
+  .tl-clip-sm.s6{left:47%; width:8%; animation-delay:0.5s;}
+  .tl-clip-sm.s7{left:58%; width:15%; animation-delay:1.6s;}
+  .tl-clip-sm.s8{left:76%; width:4%; animation-delay:0.8s;}
+  .tl-clip-sm.s9{left:83%; width:6%; animation-delay:1.9s;}
+  .tl-clip-sm.s10{left:92%; width:3%; animation-delay:1.3s;}
+  @keyframes clipFadeFast{
+    0%, 100%{opacity:0; transform:scaleY(0.7);}
+    20%, 65%{opacity:1; transform:scaleY(1);}
+    85%{opacity:0; transform:scaleY(0.7);}
+  }
+
+  .tl-track-a1{
+    background:none;
+    border:none;
+    border-radius:0;
+    height:24px;
+  }
+  .wave-clip{
+    position:absolute;
+    top:0;
+    display:flex;
+    align-items:center;
+    gap:3px;
+    height:100%;
+    opacity:0;
+    animation:clipFade 3.4s ease-in-out infinite;
+  }
+  .wave-clip span{
+    flex-shrink:0;
+    width:2px;
+    background:rgba(232,54,42,0.4);
+    border:1px solid rgba(232,54,42,0.75);
+    border-radius:1px;
+  }
+  .wave-clip.w1 span:nth-child(1){height:25%;}
+  .wave-clip.w1 span:nth-child(2){height:85%;}
+  .wave-clip.w1 span:nth-child(3){height:40%;}
+  .wave-clip.w1 span:nth-child(4){height:95%;}
+  .wave-clip.w1 span:nth-child(5){height:30%;}
+  .wave-clip.w1 span:nth-child(6){height:70%;}
+  .wave-clip.w1 span:nth-child(7){height:20%;}
+  .wave-clip.w1 span:nth-child(8){height:60%;}
+  .wave-clip.w1 span:nth-child(9){height:90%;}
+  .wave-clip.w1 span:nth-child(10){height:35%;}
+  .wave-clip.w2 span:nth-child(1){height:55%;}
+  .wave-clip.w2 span:nth-child(2){height:95%;}
+  .wave-clip.w2 span:nth-child(3){height:25%;}
+  .wave-clip.w2 span:nth-child(4){height:65%;}
+  .wave-clip.w2 span:nth-child(5){height:40%;}
+  .wave-clip.w2 span:nth-child(6){height:80%;}
+  .wave-clip.w2 span:nth-child(7){height:20%;}
+  .wave-clip.w3 span:nth-child(1){height:45%;}
+  .wave-clip.w3 span:nth-child(2){height:20%;}
+  .wave-clip.w3 span:nth-child(3){height:75%;}
+  .wave-clip.w3 span:nth-child(4){height:35%;}
+  .wave-clip.w3 span:nth-child(5){height:95%;}
+  .wave-clip.w3 span:nth-child(6){height:50%;}
+  .wave-clip.w3 span:nth-child(7){height:30%;}
+  .wave-clip.w3 span:nth-child(8){height:85%;}
+  .wave-clip.w4 span:nth-child(1){height:60%;}
+  .wave-clip.w4 span:nth-child(2){height:30%;}
+  .wave-clip.w4 span:nth-child(3){height:90%;}
+  .wave-clip.w4 span:nth-child(4){height:45%;}
+  .wave-clip.w4 span:nth-child(5){height:75%;}
+  .wave-clip.w4 span:nth-child(6){height:20%;}
+  .wave-clip.w4 span:nth-child(7){height:65%;}
+  .wave-clip.w4 span:nth-child(8){height:95%;}
+  .wave-clip.w4 span:nth-child(9){height:40%;}
+  .wave-clip.w5 span:nth-child(1){height:80%;}
+  .wave-clip.w5 span:nth-child(2){height:35%;}
+  .wave-clip.w5 span:nth-child(3){height:55%;}
+  .wave-clip.w5 span:nth-child(4){height:90%;}
+  .wave-clip.w5 span:nth-child(5){height:25%;}
+  .wave-clip.w5 span:nth-child(6){height:65%;}
+  .wave-clip.w6 span:nth-child(1){height:30%;}
+  .wave-clip.w6 span:nth-child(2){height:95%;}
+  .wave-clip.w6 span:nth-child(3){height:50%;}
+  .wave-clip.w6 span:nth-child(4){height:20%;}
+  .wave-clip.w6 span:nth-child(5){height:75%;}
+  .wave-clip.w6 span:nth-child(6){height:40%;}
+  .wave-clip.w6 span:nth-child(7){height:85%;}
+  .wave-clip.w6 span:nth-child(8){height:30%;}
+  .wave-clip.w6 span:nth-child(9){height:60%;}
+  .wave-clip.w6 span:nth-child(10){height:90%;}
+  .wave-clip.w1{left:2%; animation-delay:0s;}
+  .wave-clip.w2{left:24%; animation-delay:0.6s;}
+  .wave-clip.w3{left:42%; animation-delay:1.2s;}
+  .wave-clip.w4{left:58%; animation-delay:1.8s;}
+  .wave-clip.w5{left:76%; animation-delay:2.4s;}
+  .wave-clip.w6{left:88%; animation-delay:3s;}
 
   /* ---------- Section heading pattern ---------- */
   .section-head{
@@ -198,6 +420,13 @@
     font-family:'JetBrains Mono', monospace;
     color:var(--fg-dim);
     font-size:0.85rem;
+  }
+  .sc-current{
+    transition:color 0.4s ease, text-shadow 0.4s ease;
+  }
+  .sc-current.active{
+    color:var(--accent);
+    text-shadow:0 0 10px rgba(232,54,42,0.7), 0 0 22px rgba(232,54,42,0.35);
   }
 
   /* ---------- About ---------- */
@@ -245,8 +474,13 @@
   .work-category:first-of-type .category-head{margin-top:0;}
   .category-num{
     font-family:'JetBrains Mono', monospace;
-    color:var(--accent);
+    color:var(--fg-dim);
     font-size:0.8rem;
+    transition:color 0.4s ease, text-shadow 0.4s ease;
+  }
+  .category-num.active{
+    color:var(--accent);
+    text-shadow:0 0 10px rgba(232,54,42,0.7), 0 0 22px rgba(232,54,42,0.35);
   }
   .category-title{
     font-family:'Space Grotesk', sans-serif;
@@ -504,21 +738,92 @@
 
 <!-- ===================== HERO ===================== -->
 <section id="home">
-  <div class="eyebrow"><span class="rec" aria-hidden="true"></span><span data-i18n="hero.eyebrow">REC · video editing</span></div>
-  <h1 class="hero-title"><span data-i18n="hero.first">Daniel</span><br><em data-i18n="hero.last">Novosolov</em></h1>
-  <p class="hero-sub" data-i18n="hero.sub">Video editor. I turn raw footage into ads, social content, short films, music videos, and more.</p>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="rec" aria-hidden="true"></span><span data-i18n="hero.eyebrow">REC · video editing</span></div>
+    <h1 class="hero-title"><span data-i18n="hero.first">Daniel</span><br><em data-i18n="hero.last">Novosolov</em></h1>
+    <p class="hero-sub" data-i18n="hero.sub">Video editor. I turn raw footage into ads, social content, short films, music videos, and more.</p>
 
-  <div class="timecode-row">
-    <div id="clock" class="mono" aria-hidden="true">00:00:00:00</div>
-    <a href="#work" class="btn" data-i18n="hero.cta">View work</a>
+    <div class="timecode-row">
+      <div id="clock" class="mono" aria-hidden="true">00:00:00:00</div>
+      <a href="#work" class="btn" data-i18n="hero.cta">View work</a>
+    </div>
+
+    <div class="mini-timeline" aria-hidden="true">
+      <div class="tl-row tl-ruler-row">
+        <span class="tl-label"></span>
+        <div class="tl-ruler">
+          <!-- decorative timeline ruler -->
+          <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+          <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+          <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+          <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+          <div class="ruler-marker m1"></div>
+          <div class="ruler-marker m2"></div>
+          <div class="ruler-marker m3"></div>
+          <div class="ruler-marker m4"></div>
+          <div class="ruler-marker m5"></div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <span class="tl-label">V2</span>
+        <div class="tl-track tl-track-v2">
+          <div class="tl-clip c1"></div>
+          <div class="tl-clip c2"></div>
+          <div class="tl-clip c3"></div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <span class="tl-label">V1</span>
+        <div class="tl-track tl-track-v1">
+          <div class="tl-clip-sm s1"></div>
+          <div class="tl-clip-sm s2"></div>
+          <div class="tl-clip-sm s3"></div>
+          <div class="tl-clip-sm s4"></div>
+          <div class="tl-clip-sm s5"></div>
+          <div class="tl-clip-sm s6"></div>
+          <div class="tl-clip-sm s7"></div>
+          <div class="tl-clip-sm s8"></div>
+          <div class="tl-clip-sm s9"></div>
+          <div class="tl-clip-sm s10"></div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <span class="tl-label">A1</span>
+        <div class="tl-track tl-track-a1">
+          <div class="wave-clip w1">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="wave-clip w2">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span>
+          </div>
+          <div class="wave-clip w3">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+          <div class="wave-clip w4">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="wave-clip w5">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span>
+          </div>
+          <div class="wave-clip w6">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="ruler" aria-hidden="true">
-    <!-- decorative timeline ruler -->
-    <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
-    <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
-    <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
-    <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+  <div class="hero-photo" aria-hidden="true">
+    <img src="images/daniel-hero.jpg" alt="">
   </div>
 </section>
 
@@ -526,7 +831,7 @@
 <section id="about">
   <div class="section-head">
     <h2 class="section-title" data-i18n="nav.about">About</h2>
-    <span class="section-count mono">01 / 03</span>
+    <span class="section-count mono"><span class="sc-current">01</span> / 03</span>
   </div>
   <div class="about-grid">
     <div class="about-text">
@@ -540,7 +845,7 @@
       <div class="spec-row"><span data-i18n="about.spec.experience">Experience</span><span data-i18n="about.spec.experience.value"></span></div>
       <div class="spec-row"><span data-i18n="about.spec.clients">Clients</span><span><a href="https://www.youtube.com/@TroomTroom" target="_blank" rel="noopener noreferrer">Troom&nbsp;Troom</a>, <a href="https://music99.pl/" target="_blank" rel="noopener noreferrer">Music&nbsp;Trade</a>, <a href="https://www.youtube.com/@Hardman_stands" target="_blank" rel="noopener noreferrer">Hardman</a>, <a href="https://www.youtube.com/@Mielczewski-official" target="_blank" rel="noopener noreferrer">Mielczewski</a>, <a href="https://prodmedia.pl/" target="_blank" rel="noopener noreferrer">ProdMedia&nbsp;Agency</a>, <a href="https://www.instagram.com/vitalya_dyachok/" target="_blank" rel="noopener noreferrer">Cut2Earn</a></span></div>
       <div class="spec-row"><span data-i18n="about.spec.courses">Courses</span><span><a href="https://new.procut.com.ua/" target="_blank" rel="noopener noreferrer">ProCut&nbsp;School</a>, <a href="https://cut2earn.webflow.io/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&utm_id=97760_v0_s00_e0_tv3" target="_blank" rel="noopener noreferrer">Cut2Earn</a></span></div>
-      <div class="spec-row"><span data-i18n="about.spec.location">Location</span><span data-i18n="about.spec.location.value">Ukraine, Poland</span></div>
+      <div class="spec-row"><span data-i18n="about.spec.location">Location</span><span data-i18n="about.spec.location.value">Europe</span></div>
     </div>
   </div>
 </section>
@@ -549,7 +854,7 @@
 <section id="work">
   <div class="section-head">
     <h2 class="section-title" data-i18n="nav.work">Portfolio</h2>
-    <span class="section-count mono">02 / 03</span>
+    <span class="section-count mono"><span class="sc-current">02</span> / 03</span>
   </div>
 
   <!--
@@ -1043,24 +1348,6 @@
     </div>
     <div class="reel-card">
       <div class="reel-thumb">
-        <video class="reel-video" preload="none" poster="videos/ai-03-cover.jpg" playsinline>
-          <source src="videos/ai-03.mp4" type="video/mp4">
-        </video>
-        <div class="reel-controls">
-          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
-          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
-          <span class="rc-time mono">0:00</span>
-          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
-        </div>
-      </div>
-      <div class="reel-meta">
-        <span class="reel-num mono">03<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
-        <span class="reel-title">Hardman AI Stands 3</span>
-        <span class="reel-tc mono">00:08</span>
-      </div>
-    </div>
-    <div class="reel-card">
-      <div class="reel-thumb">
         <video class="reel-video" preload="none" poster="videos/ai-04-cover.jpg" playsinline>
           <source src="videos/ai-04.mp4" type="video/mp4">
         </video>
@@ -1072,9 +1359,45 @@
         </div>
       </div>
       <div class="reel-meta">
-        <span class="reel-num mono">04<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
-        <span class="reel-title">Hardman AI Stands 4</span>
+        <span class="reel-num mono">03<a class="reel-link" href="https://music99.pl/firm-pol-1719997647-HARDMAN.html" target="_blank" rel="noopener noreferrer" aria-label="Client link">&#8599;</a></span>
+        <span class="reel-title">Hardman AI Stands 3</span>
         <span class="reel-tc mono">00:06</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-thumb">
+        <video class="reel-video" preload="none" poster="videos/ai-05-cover.jpg" playsinline>
+          <source src="videos/ai-05.mp4" type="video/mp4">
+        </video>
+        <div class="reel-controls">
+          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
+          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
+          <span class="rc-time mono">0:00</span>
+          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
+        </div>
+      </div>
+      <div class="reel-meta">
+        <span class="reel-num mono">04</span>
+        <span class="reel-title">Mielczewski AI Piano</span>
+        <span class="reel-tc mono">00:10</span>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-thumb">
+        <video class="reel-video" preload="none" poster="videos/ai-06-cover.jpg" playsinline>
+          <source src="videos/ai-06.mp4" type="video/mp4">
+        </video>
+        <div class="reel-controls">
+          <button type="button" class="rc-play" aria-label="Play">&#9654;</button>
+          <div class="rc-progress"><div class="rc-fill"></div><div class="rc-thumb"></div></div>
+          <span class="rc-time mono">0:00</span>
+          <button type="button" class="rc-fs" aria-label="Fullscreen">&#9974;</button>
+        </div>
+      </div>
+      <div class="reel-meta">
+        <span class="reel-num mono">05</span>
+        <span class="reel-title">Guitar AI</span>
+        <span class="reel-tc mono">00:10</span>
       </div>
     </div>
     </div>
@@ -1085,7 +1408,7 @@
 <section id="contact">
   <div class="section-head">
     <h2 class="section-title" data-i18n="nav.contact">Contact</h2>
-    <span class="section-count mono">03 / 03</span>
+    <span class="section-count mono"><span class="sc-current">03</span> / 03</span>
   </div>
   <div class="contact-wrap">
     <div class="contact-info">
@@ -1116,7 +1439,6 @@
 
 <footer>
   <span>© Daniel Novosolov</span>
-  <span data-i18n="footer.made">Made with Claude</span>
 </footer>
 
 <script>
@@ -1146,6 +1468,38 @@
       const ff = String(totalFrames % fps).padStart(2,'0');
       clockEl.textContent = `${hh}:${mm}:${ss}:${ff}`;
     }, 1000/24);
+  }
+
+  // Highlight the current top-level section's number (About / Portfolio / Contact)
+  const mainSections = document.querySelectorAll('#about, #work, #contact');
+  if (mainSections.length){
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const count = entry.target.querySelector('.sc-current');
+        if (!count) return;
+        if (entry.isIntersecting){
+          document.querySelectorAll('.sc-current.active').forEach(n => n.classList.remove('active'));
+          count.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    mainSections.forEach(sec => sectionObserver.observe(sec));
+  }
+
+  // Highlight the current category's number as you scroll (others stay dim)
+  const categoryHeads = document.querySelectorAll('.category-head');
+  if (categoryHeads.length){
+    const catObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const num = entry.target.querySelector('.category-num');
+        if (!num) return;
+        if (entry.isIntersecting){
+          document.querySelectorAll('.category-num.active').forEach(n => n.classList.remove('active'));
+          num.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    categoryHeads.forEach(head => catObserver.observe(head));
   }
 
   // Horizontal reel scroll arrows
@@ -1299,14 +1653,13 @@
       "about.spec.software":"Software", "about.spec.specialization":"Specialization",
       "about.spec.specialization.value":"Ads, social media, short films, music videos, food & restaurant, motion design",
       "about.spec.experience":"Experience", "about.spec.experience.value":"5+ years",
-      "about.spec.clients":"Clients", "about.spec.courses":"Courses", "about.spec.location":"Location", "about.spec.location.value":"Ukraine, Poland",
+      "about.spec.clients":"Clients", "about.spec.courses":"Courses", "about.spec.location":"Location", "about.spec.location.value":"Europe",
       "work.title.placeholder":"Project title",
       "work.cat.ads":"Ads", "work.cat.social":"Social Media", "work.cat.music":"Music Videos",
       "work.cat.short":"Short Films", "work.cat.food":"Food & Restaurant", "work.cat.motion":"Motion Design", "work.cat.ai":"AI",
       "work.thumb.placeholder":"Insert video or cover here",
       "contact.intro":"Have a project that needs editing? Get in touch — let's talk details, timeline, and budget.",
-      "contact.form.name":"Name", "contact.form.email":"Email", "contact.form.message":"Message", "contact.form.send":"Send",
-      "footer.made":"Made with Claude"
+      "contact.form.name":"Name", "contact.form.email":"Email", "contact.form.message":"Message", "contact.form.send":"Send"
     },
     uk: {
       "nav.about":"Про мене", "nav.work":"Портфоліо", "nav.contact":"Контакти",
@@ -1320,14 +1673,13 @@
       "about.spec.software":"Софт", "about.spec.specialization":"Спеціалізація",
       "about.spec.specialization.value":"Реклама, соцмережі, короткометражки, музичні кліпи, їжа та ресторани, моушн-дизайн",
       "about.spec.experience":"Досвід", "about.spec.experience.value":"5+ років",
-      "about.spec.clients":"Клієнти", "about.spec.courses":"Курси", "about.spec.location":"Локація", "about.spec.location.value":"Україна, Польща",
+      "about.spec.clients":"Клієнти", "about.spec.courses":"Курси", "about.spec.location":"Локація", "about.spec.location.value":"Європа",
       "work.title.placeholder":"Назва проєкту",
       "work.cat.ads":"Реклама", "work.cat.social":"Соцмережі", "work.cat.music":"Музичні кліпи",
       "work.cat.short":"Короткометражки", "work.cat.food":"Їжа та ресторани", "work.cat.motion":"Моушн-дизайн", "work.cat.ai":"AI",
       "work.thumb.placeholder":"Встав сюди відео або обкладинку",
       "contact.intro":"Маєш проєкт, який треба змонтувати? Напиши — обговоримо деталі, терміни та бюджет.",
-      "contact.form.name":"Ім'я", "contact.form.email":"Email", "contact.form.message":"Повідомлення", "contact.form.send":"Надіслати",
-      "footer.made":"Зроблено з Claude"
+      "contact.form.name":"Ім'я", "contact.form.email":"Email", "contact.form.message":"Повідомлення", "contact.form.send":"Надіслати"
     },
     pl: {
       "nav.about":"O mnie", "nav.work":"Portfolio", "nav.contact":"Kontakt",
@@ -1341,14 +1693,13 @@
       "about.spec.software":"Oprogramowanie", "about.spec.specialization":"Specjalizacja",
       "about.spec.specialization.value":"Reklamy, social media, krótkie filmy, teledyski, jedzenie i restauracje, motion design",
       "about.spec.experience":"Doświadczenie", "about.spec.experience.value":"5+ lat",
-      "about.spec.clients":"Klienci", "about.spec.courses":"Kursy", "about.spec.location":"Lokalizacja", "about.spec.location.value":"Ukraina, Polska",
+      "about.spec.clients":"Klienci", "about.spec.courses":"Kursy", "about.spec.location":"Lokalizacja", "about.spec.location.value":"Europa",
       "work.title.placeholder":"Nazwa projektu",
       "work.cat.ads":"Reklamy", "work.cat.social":"Social media", "work.cat.music":"Teledyski",
       "work.cat.short":"Krótkie filmy", "work.cat.food":"Jedzenie i restauracje", "work.cat.motion":"Motion design", "work.cat.ai":"AI",
       "work.thumb.placeholder":"Wstaw tutaj wideo lub okładkę",
       "contact.intro":"Masz projekt do zmontowania? Napisz — omówimy szczegóły, terminy i budżet.",
-      "contact.form.name":"Imię", "contact.form.email":"Email", "contact.form.message":"Wiadomość", "contact.form.send":"Wyślij",
-      "footer.made":"Stworzone z Claude"
+      "contact.form.name":"Imię", "contact.form.email":"Email", "contact.form.message":"Wiadomość", "contact.form.send":"Wyślij"
     },
     ru: {
       "nav.about":"Обо мне", "nav.work":"Портфолио", "nav.contact":"Контакты",
@@ -1362,14 +1713,13 @@
       "about.spec.software":"Софт", "about.spec.specialization":"Специализация",
       "about.spec.specialization.value":"Реклама, соцсети, короткометражки, музыкальные клипы, еда и рестораны, моушн-дизайн",
       "about.spec.experience":"Опыт", "about.spec.experience.value":"5+ лет",
-      "about.spec.clients":"Клиенты", "about.spec.courses":"Курсы", "about.spec.location":"Локация", "about.spec.location.value":"Украина, Польша",
+      "about.spec.clients":"Клиенты", "about.spec.courses":"Курсы", "about.spec.location":"Локация", "about.spec.location.value":"Европа",
       "work.title.placeholder":"Название проекта",
       "work.cat.ads":"Реклама", "work.cat.social":"Соцсети", "work.cat.music":"Музыкальные клипы",
       "work.cat.short":"Короткометражки", "work.cat.food":"Еда и рестораны", "work.cat.motion":"Моушн-дизайн", "work.cat.ai":"AI",
       "work.thumb.placeholder":"Вставь сюда видео или обложку",
       "contact.intro":"Есть проект, который нужно смонтировать? Напиши — обсудим детали, сроки и бюджет.",
-      "contact.form.name":"Имя", "contact.form.email":"Email", "contact.form.message":"Сообщение", "contact.form.send":"Отправить",
-      "footer.made":"Сделано с Claude"
+      "contact.form.name":"Имя", "contact.form.email":"Email", "contact.form.message":"Сообщение", "contact.form.send":"Отправить"
     }
   };
 
